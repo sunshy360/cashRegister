@@ -27,7 +27,7 @@ public class CashRegisterTest {
 	public void getTotalPriceWhenJustHaveOneProductDiscount()
 	{
 		CashRegister cashRegister = new CashRegister();
-		cashRegister.add(new Product(new BigDecimal("10.50"), new BigDecimal("0.90"), new String("ITEM000001")));
+		cashRegister.add(new Product(new BigDecimal("10.50"), new BigDecimal("0.90")));
 		assertEquals(0,new BigDecimal("9.45").compareTo(cashRegister.getTotalPrice()));
 		
 	}
@@ -36,8 +36,8 @@ public class CashRegisterTest {
 	public void getTotalPriceWhenHaveMultipleProductsDiscount()
 	{
 		CashRegister cashRegister = new CashRegister();
-		cashRegister.add(new Product(new BigDecimal("10.50"), new BigDecimal("0.90"), new String("ITEM000001")));
-		cashRegister.add(new Product(new BigDecimal("10.50"), new BigDecimal("0.90"), new String("ITEM000001")));
+		cashRegister.add(new Product(new BigDecimal("10.50"), new BigDecimal("0.90")));
+		cashRegister.add(new Product(new BigDecimal("10.50"), new BigDecimal("0.90")));
 		cashRegister.add(new Product(new BigDecimal("20.50")));		
 		assertEquals(0,new BigDecimal("39.4").compareTo(cashRegister.getTotalPrice()));
 	}

@@ -12,7 +12,7 @@ public class CashRegister {
 	public BigDecimal getTotalPrice() {
 		BigDecimal total = new BigDecimal("0.0");
 		for(Product product : productList) {
-			if(product.getBarcode() != null)
+			if(product.getDiscount() != null)
 				total = total.add(product.getPrice().multiply(product.getDiscount()));
 			else
 				total = total.add(product.getPrice());
