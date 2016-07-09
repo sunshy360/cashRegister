@@ -16,7 +16,7 @@ public class CashRegisterTest {
 	}
 	
 	private Product createProduct(double price) {
-		return new Product(price);
+		return new Product("AAAA", price, "GE");
 	}
 	
 	@Test
