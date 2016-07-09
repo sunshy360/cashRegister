@@ -1,27 +1,12 @@
-import java.math.BigDecimal;
 
 public class Product {
+	private double price = 0.0;
 
-	private BigDecimal price = null;
-	private BigDecimal discount = null;
-
-	public Product(BigDecimal price) {
+	public Product(double price) {
 		this.price = price;
 	}
-	
-	public Product(BigDecimal bigDecimal,BigDecimal discount) {
-		this(bigDecimal);
-		this.discount = discount;
-	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
-
-	public BigDecimal getDiscount() {
-		return discount;
-	}
-
-
-
 }

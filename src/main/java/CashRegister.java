@@ -1,4 +1,3 @@
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class CashRegister {
@@ -9,13 +8,10 @@ public class CashRegister {
 		
 	}
 
-	public BigDecimal getTotalPrice() {
-		BigDecimal total = new BigDecimal("0.0");
+	public double getTotalPrice() {
+		double total = 0.0;
 		for(Product product : productList) {
-			if(product.getDiscount() != null)
-				total = total.add(product.getPrice().multiply(product.getDiscount()));
-			else
-				total = total.add(product.getPrice());
+			total += product.getPrice();
 		}
 		return total;
 	}

@@ -1,9 +1,5 @@
 import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,25 +12,25 @@ public class CashRegisterTest {
 	@Before
 	public void setUp(){
 		cashRegister = new CashRegister();
-		product1 = createProduct(new BigDecimal("10.50"));
+		product1 = createProduct(10.50);
 	}
 	
-	private Product createProduct(BigDecimal price) {
+	private Product createProduct(double price) {
 		return new Product(price);
 	}
 	
 	@Test
 	public void getTotalPriceWhenJustHaveOneProduct() {
 		cashRegister.add(product1);
-		assertEquals(0,new BigDecimal("10.50").compareTo(cashRegister.getTotalPrice()));
+		assertEquals(10.50,cashRegister.getTotalPrice(),0.0000001);
 	}
 	
 	@Test
 	public void getTotalPriceWhenHaveMultipleProducts() {
 		cashRegister.add(product1);
 		cashRegister.add(product1);
-		cashRegister.add(createProduct(new BigDecimal("20.50")));
-		assertEquals(0,new BigDecimal("41.50").compareTo(cashRegister.getTotalPrice()));
+		cashRegister.add(createProduct(20.50));
+		assertEquals(41.50,cashRegister.getTotalPrice(),0.00000001);
 	}
 	
 }
