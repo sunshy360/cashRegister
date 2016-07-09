@@ -1,4 +1,8 @@
+package printer;
+
 import java.util.LinkedHashMap;
+
+import model.Product;
 
 public class ReceiptPrinter {
 

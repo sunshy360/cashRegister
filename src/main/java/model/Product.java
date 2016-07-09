@@ -1,3 +1,4 @@
+package model;
 
 public class Product {
 	private double price = 0.0;
