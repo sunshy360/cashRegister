@@ -1,23 +1,27 @@
 package app;
 
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import model.Product;
 import printer.ReceiptPrinter;
 
 public class CashRegister {
-	private ArrayList<Product> productList = new ArrayList<Product>();
+	private LinkedHashMap<Product,Integer> productMap = new LinkedHashMap<Product,Integer>();
 	private ReceiptPrinter receiptPrinter = new ReceiptPrinter();
 	
 	public void add(Product product) {
-		productList.add(product);
+		if(productMap.containsKey(product)){
+			productMap.put(product, productMap.get(product)+1);
+		} else {
+			productMap.put(product,1);
+		}
 		
 	}
 
 	public double getTotalPrice() {
 		double total = 0.0;
-		for(Product product : productList) {
-			total += product.getPrice();
+		for(Product product : productMap.keySet()) {
+			total += product.getPrice()*productMap.get(product);
 		}
 		return total;
 	}
@@ -33,6 +37,10 @@ public class CashRegister {
 		receiptString += receiptPrinter.printMultipleItemsInItemSection(null);
 		receiptString += receiptPrinter.getReceiptSum(this.getTotalPrice());
 		return receiptString;
+	}
+
+	public int getProductNumber(Product product) {
+		return productMap.get(product);
 	}
 	
 }

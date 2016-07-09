@@ -1,17 +1,18 @@
 package app;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import app.CashRegister;
 import model.Product;
 import printer.ReceiptPrinter;
-import static org.mockito.Mockito.*;
 
 public class CashRegisterTest {
 
@@ -22,11 +23,11 @@ public class CashRegisterTest {
 	@Before
 	public void setUp(){
 		cashRegister = new CashRegister();
-		product1 = createProduct(10.50);
+		product1 = createProduct("ITEM0001",10.50);
 	}
 	
-	private Product createProduct(double price) {
-		return new Product("AAAA", price, "GE");
+	private Product createProduct(String barcode, double price) {
+		return new Product(barcode, "AAAA", price, "GE", "", "");
 	}
 	
 	@Test
@@ -39,22 +40,30 @@ public class CashRegisterTest {
 	public void getTotalPriceWhenHaveMultipleProducts() {
 		cashRegister.add(product1);
 		cashRegister.add(product1);
-		cashRegister.add(createProduct(20.50));
+		cashRegister.add(createProduct("ITEM0002",20.50));
 		assertEquals(41.50,cashRegister.getTotalPrice(),0.00000001);
 	}
 	
+	@Test
+	public void getProductNumber() {
+		cashRegister.add(product1);
+		cashRegister.add(product1);
+		cashRegister.add(createProduct("ITEM0002",20.50));
+		assertEquals(2,cashRegister.getProductNumber(product1));
+		assertEquals(1,cashRegister.getProductNumber(createProduct("ITEM0002",20.50)));
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void printReceipt(){
 		ReceiptPrinter receiptPrinter = mock(ReceiptPrinter.class);
 		cashRegister.setReceiptPrinter(receiptPrinter);
 		cashRegister.add(product1);
 		cashRegister.add(product1);
-		cashRegister.add(createProduct(20.50));
+		cashRegister.add(createProduct("ITEM0002",20.50));
 		
 		cashRegister.printReceipt();
-		
-		
-		
+				
 		verify(receiptPrinter,times(1)).getReceiptHead();
 		verify(receiptPrinter,times(1)).printMultipleItemsInItemSection(any(LinkedHashMap.class));
 		verify(receiptPrinter,times(1)).getReceiptSum(cashRegister.getTotalPrice());
