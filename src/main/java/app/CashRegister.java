@@ -2,8 +2,8 @@ package app;
 
 import java.util.LinkedHashMap;
 
-import model.Product;
-import printer.ReceiptPrinter;
+import app.model.Product;
+import app.printer.ReceiptPrinter;
 
 public class CashRegister {
 	private LinkedHashMap<Product,Integer> productMap = new LinkedHashMap<Product,Integer>();

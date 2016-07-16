@@ -1,17 +1,17 @@
-package printer;
+package app.printer;
 
 import java.util.LinkedHashMap;
 
-import model.Product;
+import app.model.Product;
 
 public class ReceiptPrinter {
 
 	public String getReceiptHead() {
-		return "Ã»Ç®×¬ÉÌµêÇåµ¥";
+		return "Ã»Ç®×¬ï¿½Ìµï¿½ï¿½åµ¥";
 	}
 
 	public String printOneItemInItemsSection(Product product, int number) {
-		return String.format("Ãû³Æ£º%s£¬ÊýÁ¿£º%d%s£¬µ¥¼Û£º%1.2f£¨Ôª£©£¬Ð¡¼Æ£º%1.2f£¨Ôª£©",
+		return String.format("ï¿½ï¿½ï¿½Æ£ï¿½%sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½%d%sï¿½ï¿½ï¿½ï¿½ï¿½Û£ï¿½%1.2fï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½Ð¡ï¿½Æ£ï¿½%1.2fï¿½ï¿½Ôªï¿½ï¿½",
 								product.getName(),
 								number,product.getUnit(),
 								product.getPrice(),
@@ -28,6 +28,6 @@ public class ReceiptPrinter {
 	}
 
 	public String getReceiptSum(double totalPrice) {
-		return String.format("×Ü¼Æ£º%1.2f£¨Ôª£©", totalPrice);
+		return String.format("ï¿½Ü¼Æ£ï¿½%1.2fï¿½ï¿½Ôªï¿½ï¿½", totalPrice);
 	}
 }
