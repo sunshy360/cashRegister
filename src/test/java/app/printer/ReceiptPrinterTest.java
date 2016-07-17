@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import app.model.Product;
-import app.printer.ReceiptPrinter;
 
 
 public class ReceiptPrinterTest {
