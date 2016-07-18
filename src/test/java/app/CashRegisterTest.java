@@ -11,8 +11,8 @@ import java.util.LinkedHashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Product;
-import printer.ReceiptPrinter;
+import app.model.Product;
+import app.printer.ReceiptPrinter;
 
 public class CashRegisterTest {
 
