@@ -1,0 +1,7 @@
+{
+"ITEM000001":{ "barcode":"ITEM000001","name": "可口可乐", "unit": "瓶", "category": "食品", "subcategory": "饮料", "price": 3.00 },
+"ITEM000002":{ "barcode":"ITEM000002","name": "薯片", "unit": "包", "category": "食品", "subcategory": "食品", "price": 4.00 },
+"ITEM000003":{ "barcode":"ITEM000003","name": "苹果", "unit": "斤", "category": "食品",  "subcategory": "水果","price": 5.00 },
+"ITEM000004":{ "barcode":"ITEM000004","name": "中性笔", "unit": "支", "category": "办公用品", "subcategory": "笔", "price": 1.00 },
+"ITEM000005":{ "barcode":"ITEM000005","name": "洗发水", "unit": "瓶", "category": "日用品", "subcategory": "洗护用品", "price": 10.00 }
+}
