@@ -21,9 +21,7 @@ public class ReadShoppingCartItemFromJsonFile {
 		String str = ReadUtilFile.readFile(".\\Data\\shoppingCart.json");
 		//读取购物清单，将其转换为list，存放
 		Gson gson = new Gson();
-		List<String> retList = gson.fromJson(str,  
-                new TypeToken<List<String>>() {  
-                }.getType()); 
+		List<String> retList = gson.fromJson(str,  new TypeToken<List<String>>(){}.getType()); 
 		@SuppressWarnings("rawtypes")
 		ArrayList list = new ArrayList();
 		@SuppressWarnings("rawtypes")
