@@ -1,5 +1,6 @@
 package app.utilsFiles;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,17 +16,15 @@ public class ReadByeTwoGetOneFreeIDTest {
 
 	@Test
 	public void test() {
-		String str = ReadUtilFile.readFile(".\\Data\\ByeTwoGetOneFreeID.json");
-		//读取买二赠一清单列表中ID
-		Gson gson = new Gson();
-		Set<String> retSet = gson.fromJson(str,  new TypeToken<Set<String>>(){}.getType()); 
-		      
-        Set<String> set = new HashSet<String>();
-        set.add("ITEM000001");
-        set.add("ITEM000002");
-        set.add("ITEM000005");
+		ReadUtilFile readUtilFile = new ReadUtilFile();
+		ArrayList<String> actual = readUtilFile.readBuyTwoGetOneFreeID();
 
-        Assert.assertEquals(set,retSet);
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("ITEM000001");
+		list.add("ITEM000002");
+		list.add("ITEM000005");
+
+        Assert.assertEquals(list,actual);
 	}
 
 }

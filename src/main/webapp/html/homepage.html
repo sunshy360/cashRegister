@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<!--
+Copyright © 2016 Trade Trendy LLC
+Is the source code interesting? Thank you!
+-->
+
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+		<title>没钱赚超市计价系统</title>
+		<meta name="author" content="Trade Trendy LLC">
+		<meta name="description" content="Trade your clothing, shoes, and accessories with anyone across the nation. Swap securely and comfortably using Trade Trendy.">
+
+		<meta property="og:site_name" content="Trade Trendy">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="https://www.tradetrendy.com/">
+		<meta property="og:title" content="Trade Clothing, Shoes, &amp; Accessories | Trade Trendy">
+		<meta property="og:description" content="Trade your clothing, shoes, and accessories with anyone across the nation. Swap securely and comfortably using Trade Trendy.">
+		<meta property="og:image" content="https://tradetrendy.s3.amazonaws.com/assets/custom/images/favicon_700.png">
+		<meta rel="image_src" content="https://tradetrendy.s3.amazonaws.com/assets/custom/images/favicon_700.png">
+		<meta rel="shortcut icon" content="https://www.tradetrendy.com/images/favicons/favicon.png">
+		<meta rel="apple-touch-icon-precomposed" content="view-source:https://tradetrendy.s3.amazonaws.com/images/communities/logos/1/apple_touch/favicon_700.png">
+		<meta property="og:locale" content="en_US">
+
+		<link rel="icon" href="https://www.tradetrendy.com/images/favicons/favicon.png">
+		<link rel="apple-touch-icon" href="https://www.tradetrendy.com/images/favicons/apple-touch-icon.png">
+
+		<link rel="stylesheet" href="https://www.tradetrendy.com/css/lib.css">
+		<link rel="stylesheet" href="https://www.tradetrendy.com/css/style.css">
+		<style>
+		#Add{float:left}
+		.jumbotron{color:#000000}
+		</style>
+	</head>
+
+	<body class="enable-animations enable-preloader">
+				<!-- 自定义的模态框：填barcode和数量 -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+										  <div class="modal-dialog" role="document">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+										        <h4 class="modal-title" id="exampleModalLabel">请输入商品条码</h4>
+										      </div>
+										      
+										      <div class="modal-body" id="modalBody">
+										        <div class="row">
+										        <div class="col-lg-6">
+										          <div class="form-group">
+										        	<div class="input-group">
+													  <span class="input-group-addon">ITEM</span>
+													  <input type="text" class="form-control" id="barcode1" value="000001" aria-describedby="sizing-addon2">
+													</div>
+										          </div>
+												</div>
+										        <div class="col-lg-6">
+										          <div class="form-group">
+										        	<div class="input-group">
+													  <input type="text" class="form-control" id="number1" value="1" aria-describedby="sizing-addon2">
+													  <span class="input-group-addon">个</span>
+													</div>
+										          </div>
+												</div>
+										        </div>
+										      
+										      </div>
+										      <div class="modal-footer">
+										      	<button type="button" class="btn btn-success" id="Add">添加</button>
+										        <button type="button" class="btn btn-default" id="Close" "data-dismiss="modal">关闭</button>
+										        <button type="button" class="btn btn-primary" id="Send">提交</button>
+										      </div>
+										    </div>
+										  </div>
+										</div>
+								
+		<div id="document" class="document">
+			<header id="header" class="header-section section section-dark navbar navbar-fixed-top">
+				<div class="container-fluid">
+					<div class="navbar-header navbar-left">
+
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+
+						<a class="navbar-logo navbar-brand anchor-link" href="#hero">
+							<img src="thoughtworks.png" alt="thoughtworks">
+						</a>
+					</div>
+
+					<nav id="navigation" class="navigation navbar-collapse collapse navbar-right">
+
+						<ul id="header-nav" class="nav navbar-nav">
+							<li><a href="#hero" class="hidden">Top</a></li>
+							<li><a href="https://listings.tradetrendy.com/" class="external">Listings</a></li>
+							<li class="dropdown dropdown-hover">
+								<a href="#" class="dropdown-toggle external" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#how-it-works" class="anchor-link">How It Works</a></li>
+									<li><a href="#pricingtext" class="anchor-link">Pricing</a></li>
+									<li><a href="help" class="external">FAQ</a></li>
+								</ul>
+							</li>
+							<li id="listbutton" class="header-action-button"><a href="https://listings.tradetrendy.com/en/login" class="btn btn-primary external">Sign In</a></li>
+						</ul>
+					</nav>
+				</div>
+			</header>
+
+			<section id="hero" class="hero-section hero-layout-simple hero-layout-fullscreen-subscription-form hero-fullscreen section section-dark">
+				<div class="section-background">
+					<ul id="homebackground" class="section-background-slideshow parallax" data-stellar-ratio="0.2">
+						<li><img src="super1.jpg" alt="" style="opacity: 0.5;"></li>
+						<li><img src="super2.jpg" alt="" style="opacity: 0.5;"></li>
+						<li><img src="super3.jpg" alt="" style="opacity: 0.5;"></li>
+					</ul>
+				</div>
+
+				<div class="container" >
+					<div class="hero-content">
+						<div class="hero-content-inner" , id="hero-content-inner-div">
+							<div class="row">
+								<div class="col-md-10 col-md-offset-1">
+									<div class="hero-heading text-center" data-animation="fadeIn">
+										<h1 class="hero-title", id ="centerTitle">没钱赚超市计价系统</h1>
+										<p class="hero-tagline", id ="centerInfo">请点击以下按钮，并扫描商品条码</p>
+										<button type="button" class="btn btn-primary" data-toggle="modal" id="scanner">扫描条码</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</section>
+		</div>
+		
+		<!-- 有加载顺序 -->
+		<script src="https://www.tradetrendy.com/js/jquery-1.11.2.min.js"></script>
+		<script src="https://www.tradetrendy.com/js/lib.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>	
+		<script src="https://www.tradetrendy.com/js/script.js"></script>
+		
+		<!-- 自定义JS：点击显示模态框 -->
+		<script>
+		//<a href="#pricingtext" class="btn btn-success anchor-link"></a>
+		$("#scanner").click(function(){
+			$('#exampleModal').modal("show");
+		})
+		</script>
+		
+		<!-- 自义JS：提交表单json -->
+		<script>
+		$("#Send").click(function(){
+			var requestList = new Array(count-1);
+			for(var i=1;i<count;i++){
+				var barcode = $("#barcode"+i).val();
+				var number = $("#number"+i).val();
+				if(number==1)
+					var req = "ITEM"+barcode;
+				else
+					var req = "ITEM"+barcode+"-"+number;
+				requestList[i-1]=req;
+			}
+			
+			//var parsed = JSON.stringify(requestList);
+
+			$.ajax({
+				type : "POST",
+				contentType : "application/text;charset=utf-8",
+				url : "/readJson",
+				data :  { item : requestList },
+				dataType : 'text',
+				traditional: true,
+				timeout : 100000,
+				success : function(data) {
+					$("#exampleModal").modal("hide");
+					$("#centerTitle")[0].style.display="none";
+					$("#centerInfo")[0].style.display="none";
+					$("#scanner")[0].style.display="none";
+					
+					var resList = data.split("@");
+					var receiptDiv = '<div class="jumbotron" , id="receipt">'+resList[0]+'<hr class="m-y-2"><p>'+resList[1]+'</p><hr class="m-y-2"><p>'+resList[2]+'</p><hr class="m-y-2"><p>'+resList[3]+'</p></div>';
+					$("#hero-content-inner-div").append(receiptDiv);
+					console.log("SUCCESS: ", data);
+				},
+				error : function(e) {
+					console.log("ERROR: ", e);
+				},
+				done : function(e) {
+					console.log("DONE");
+				}
+			});
+			//var centerTitleVar = document.getElementById('centerTitle');
+			//centerTitleVar.style.display="none";
+			//var centerInfoVar = document.getElementById('centerInfo');
+			//centerInfoVar.style.display="none";
+			//var scannerVar = document.getElementById('scanner');
+			//scannerVar.style.display="none";
+			
+			/*
+			$.post("http://127.0.0.1:8080/readJson",{data:parsed},function(data){
+				console.log(data);
+			})
+			*/
+		})
+		</script>
+		
+		<!-- 自定义JS：动态添加div -->
+		<script> 
+		var count = 2;
+		$("#Add").click(function(){
+			var div = ' <div class="row"><div class="col-lg-6"><div class="form-group"><div class="input-group"><span class="input-group-addon">ITEM</span> <input type="text" class="form-control" id="barcode'+count+'" aria-describedby="sizing-addon2"></div></div></div><div class="col-lg-6"><div class="form-group"><div class="input-group"><input type="text" class="form-control" id="number'+count+'" value="1" aria-describedby="sizing-addon2"><span class="input-group-addon">个</span></div></div></div> </div>'
+			$("#modalBody").append(div);
+			count++;
+		})
+		</script>
+	</body>
+
+</html>

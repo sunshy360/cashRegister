@@ -14,15 +14,16 @@ public class ReadProductItemFromJsonTest {
 	@Test
 	public void test()
 	{
-	    Map<String, Product> retMap = ReadUtilFile.ReadProductItem();
+		ReadUtilFile readUtilFile = new ReadUtilFile();
+	    Map<String, Product> retMap = readUtilFile.readProductItem();
 		for(String barcode: retMap.keySet())
 	    {
 	    	Product product = retMap.get(barcode);
-	    	//System.out.println("barcode:" + barcode + "    name：" + product.getName());
-	    	if(barcode == "ITEM0001")
-	    		Assert.assertEquals("可口可乐", product.getName());
-	    	if(barcode == "ITEM0004")
-	    		Assert.assertEquals("中性笔", product.getName());
+	    	//System.out.println("barcode:" + barcode + "    name锟斤拷" + product.getName());
+	    	if(barcode == "ITEM000001")
+	    		Assert.assertEquals("鍙彛鍙箰", product.getName());
+	    	if(barcode == "ITEM000004")
+	    		Assert.assertEquals("涓�х瑪", product.getName());
 	    }
 	}
 }

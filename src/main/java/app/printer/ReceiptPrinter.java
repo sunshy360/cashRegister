@@ -1,45 +1,70 @@
 package app.printer;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import app.UtilFiles.DiscountConvert;
+import app.UtilFiles.ReadUtilFile;
 import app.model.Product;
 
 public class ReceiptPrinter {
 
+	public static ReadUtilFile readUtilFile = new ReadUtilFile(); 
+	public static LinkedHashMap<String, Integer> buyTwoFreeOneList = new LinkedHashMap<String, Integer>(); 
+	public static double totalPrice = 0.0; 
+	public static double totalDiscount = 0.0; 
+	
 	public String getReceiptHead() {
-		return "***<Ã»Ç®×¬ÉÌµê>¹ºÎïÇåµ¥***";
+		return "***<æ²¡é’±èµšå•†åº—>è´­ç‰©æ¸…å•***";
 	}
 
-	public String printOneItemInItemsSection(Product product, int number) {
-		return String.format("Ãû³Æ£º%s£¬ÊıÁ¿£º%d%s£¬µ¥¼Û£º%1.2f(Ôª)£¬Ğ¡¼Æ£º%1.2f(Ôª)",
+	public String printOneItemInItemsSection(Product product, Integer number) {
+		double itemPrice = product.getPrice() * number;
+		totalPrice += itemPrice;
+		return String.format("åç§°ï¼š%sï¼Œæ•°é‡ï¼š%d%sï¼Œå•ä»·ï¼š%1.2f(å…ƒ)ï¼Œå°è®¡ï¼š%1.2f(å…ƒ)",
 								product.getName(),
-								number,product.getUnit(),
+								number,
+								product.getUnit(),
 								product.getPrice(),
-								product.getPrice() * number);
+								itemPrice);
 	}
 
-	public String printMultipleItemsInItemSection(LinkedHashMap<Product, Integer> productsWithNumbers) {
+	/*//abandon
+	public String printMultipleItemsInItemSection(LinkedHashMap<String, Integer> productsWithNumbers) {
 		String str = "";
-		for(Product product : productsWithNumbers.keySet()){
-			str += printOneItemInItemsSection(product, productsWithNumbers.get(product));
+		for(String s : productsWithNumbers.keySet()){
+			Product product = ReadUtilFile.productMap.get(s);
+			str += printOneItemInItemsSection(product, productsWithNumbers.get(s));
 			str += "\n";
 		}
 		return str;
-	}
-
-	public String getReceiptSum(double totalPrice) {
-		return String.format("×Ü¼Æ£º%1.2f(Ôª)", totalPrice);
-	}
+	}*/
 
 	public String printOneItemInItemsSectionWhentDiscount(Product product, int number) {
-		return String.format("Ãû³Æ£º%s£¬ÊıÁ¿£º%d%s£¬µ¥¼Û£º%1.2f(Ôª)£¬Ğ¡¼Æ£º%1.2f(Ôª)£¬½ÚÊ¡£º%1.2f(Ôª)",
+		String discountType = "";
+		//åå‘å¯»æ‰¾æŠ˜æ‰£ç±»å‹
+		for(String s:readUtilFile.discountMap.keySet())
+			if(readUtilFile.discountMap.get(s).equals(product.getBarcode()))
+				discountType = s;
+		double discountNumber= readUtilFile.discountConvertMap.get(discountType).getDiscount();
+		
+		double itemPrice = product.getPrice() * number * discountNumber;
+		double itemDiscount = product.getPrice() * number * (1-discountNumber);
+		totalPrice += itemPrice;
+		totalDiscount += itemDiscount;
+		
+		return String.format("åç§°ï¼š%sï¼Œæ•°é‡ï¼š%d%sï¼Œå•ä»·ï¼š%1.2f(å…ƒ)ï¼Œå°è®¡ï¼š%1.2f(å…ƒ)ï¼ŒèŠ‚çœï¼š%1.2f(å…ƒ)",
 				product.getName(),
 				number,product.getUnit(),
 				product.getPrice(),
-				product.getPrice() * number * 0.95,
-				product.getPrice() * number * (1-0.95));
+				itemPrice,
+				product.getPrice() * number * (1-discountNumber));
 	}
 
+/*
 	public String printMultipleItemsInItemSectionWhenHaveMutipleDiscountAndAnthorAsUsual(
 			LinkedHashMap<Product, Integer> productsWithNumbers) {
 		String str = "";
@@ -56,22 +81,26 @@ public class ReceiptPrinter {
 		}
 		return str;
 	}
+*/
 
-	public String printOneItemInItemsSectionWhenByeTwoGetOneFree(Product product, int number) {
+	public String printOneItemInItemsSectionWhenBuyTwoGetOneFree(Product product, int number) {
 		if (number < 3)
 			return printOneItemInItemsSection(product, number);
-		else 
-			return String.format("Ãû³Æ£º%s£¬ÊıÁ¿£º%d%s£¬µ¥¼Û£º%1.2f(Ôª)£¬Ğ¡¼Æ£º%1.2f(Ôª)",
+		else {
+			double itemPrice = product.getPrice() * (number - number/3);
+			double itemDiscount = product.getPrice() * (number/3);
+			totalPrice += itemPrice;
+			totalDiscount += itemDiscount;
+			
+			return String.format("åç§°ï¼š%sï¼Œæ•°é‡ï¼š%d%sï¼Œå•ä»·ï¼š%1.2f(å…ƒ)ï¼Œå°è®¡ï¼š%1.2f(å…ƒ)",
 					product.getName(),
 					number,product.getUnit(),
 					product.getPrice(),
-					product.getPrice() * (number - number/3));
-	}
-
-	public String getReceiptByeTwoGetOneFreeHead() {
-		return "Âò¶şÔùÒ»ÉÌÆ·:\n";
+					itemPrice);
+		}
 	}
 	
+/*
 	public String printMultipleItemsInItemSectionWhenHaveMutipleByeTwoGetOneFreeAndAnthorAsUsual(
 			LinkedHashMap<Product, Integer> productsWithNumbers) {
 		String str = "";
@@ -83,22 +112,85 @@ public class ReceiptPrinter {
 			}
 			else
 			{
-				str += printOneItemInItemsSectionWhenByeTwoGetOneFree(product, productsWithNumbers.get(product));
-				str2 += printOneItemInItemsSectionWheByeTwoGetOneFreeList(product, productsWithNumbers.get(product));
+				str += printOneItemInItemsSectionWhenBuyTwoGetOneFree(product, productsWithNumbers.get(product));
+				str2 += printOneItemInItemsSectionWheBuyTwoGetOneFreeList(product, productsWithNumbers.get(product));
 				str2 += "\n";
 			}
 			str += "\n";
 		}
-		return str +"-----------\n" + getReceiptByeTwoGetOneFreeHead() + str2;
+		return str +"-----------\n" + getReceiptBuyTwoGetOneFreeHead() + str2;
+	}
+	public String printMuiltyItemReciptItemsSectionWhenHaveMultipleProductBuyTwoGetOneFreeAndHaveDiscountAndAnotherAsUsual(
+			LinkedHashMap<String, Integer> productsWithNumbers) {
+		for(String s : productsWithNumbers.keySet()){
+			Product product = ReadUtilFile.productMap.get(s);
+			if(ReadUtilFile.product)
+			{
+				str += printOneItemInItemsSection(product, productsWithNumbers.get(product));
+			}
+			else
+			{
+				str += printOneItemInItemsSectionWhenBuyTwoGetOneFree(product, productsWithNumbers.get(product));
+				str2 += printOneItemInItemsSectionWheBuyTwoGetOneFreeList(product, productsWithNumbers.get(product));
+				str2 += "\n";
+			}
+			str += "\n";
+		}
+	}
+	*/
+	
+	public String threeChoseOne(LinkedHashMap<String, Integer> productsWithNumbers) {
+		ArrayList<String> buyTwoGetOneFreeID = ReadUtilFile.readBuyTwoGetOneFreeID();
+		Map<String, DiscountConvert> discountID = ReadUtilFile.readDiscountIDConvert();
+		ReceiptPrinter receiptPrinter = new ReceiptPrinter();
+		LinkedHashMap<String, Integer> shoppingCart = productsWithNumbers;
+		
+		String str = ""; 
+		
+		for(String string : shoppingCart.keySet())
+		{		
+			Product product = ReadUtilFile.productMap.get(string);
+			//ä¹°äºŒèµ ä¸€
+			if(buyTwoGetOneFreeID.contains(product.getBarcode()))
+			{
+				str += receiptPrinter.printOneItemInItemsSectionWhenBuyTwoGetOneFree(product, shoppingCart.get(product.getBarcode())) + "\n";
+				buyTwoFreeOneList.put(string, shoppingCart.get(string));
+			}
+			//æ‰“æŠ˜
+			else if(discountID.get(product.getBarcode()) != null){
+				str += receiptPrinter.printOneItemInItemsSectionWhentDiscount(product, shoppingCart.get(product.getBarcode())) + "\n";
+			}
+			//æ­£å¸¸
+			else{
+				str += receiptPrinter.printOneItemInItemsSection(product, shoppingCart.get(product.getBarcode())) + "\n";
+			}
+		}
+		return str;
+	}
+	
+	public String getReceiptBuyTwoGetOneFreeHead() {
+		return "ä¹°äºŒèµ ä¸€å•†å“ï¼š\n";
 	}
 
-	private String printOneItemInItemsSectionWheByeTwoGetOneFreeList(Product product, int number) {
-		if (number < 3)
-			return printOneItemInItemsSection(product, number);
-		else 
-			return String.format("Ãû³Æ£º%s£¬ÊıÁ¿£º%d%s",
+	public String printOneItemInItemsSectionWheBuyTwoGetOneFreeList() {
+		String str = getReceiptBuyTwoGetOneFreeHead();
+		for(String key : buyTwoFreeOneList.keySet()){ 
+			Product product = readUtilFile.productMap.get(key);
+			str += String.format("åç§°ï¼š%sï¼Œæ•°é‡ï¼š%d%s",
 					product.getName(),
-					number/3,
+					buyTwoFreeOneList.get(key)/3,
 					product.getUnit());
+		}
+		return str;
+	}
+
+	public String getReceiptSum(LinkedHashMap<String, Integer> productsWithNumbers) {
+		totalPrice = 0.0; 
+		totalDiscount = 0.0; 
+		threeChoseOne(productsWithNumbers);
+		if(totalDiscount==0.0)
+			return String.format("æ€»è®¡ï¼š%1.2f(å…ƒ)", totalPrice);
+		else
+			return String.format("æ€»è®¡ï¼š%1.2f(å…ƒ)\nèŠ‚çœï¼š%1.2f(å…ƒ)", totalPrice,totalDiscount);
 	}
 }

@@ -3,21 +3,26 @@ package app.printer;
 import static org.junit.Assert.assertEquals;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import app.UtilFiles.ReadUtilFile;
 import app.model.Product;
 
 
 public class ReceiptPrinterTest {
-	
+
 	private ReceiptPrinter receiptPrinter;
-	
 	@Before
 	public void setUp(){
 		receiptPrinter = new ReceiptPrinter();
+		new ReadUtilFile();
+		ReadUtilFile.readProductItem();
+		ReadUtilFile.readDiscountItem();
+		ReadUtilFile.readDiscountConvertItem();
 	}
 	
 	private Product createProduct(String barcode, String name, double price, String unit) {
@@ -27,30 +32,50 @@ public class ReceiptPrinterTest {
 	@Test
 	public void getReceiptHead()
 	{
-		assertEquals("***<Ã»Ç®×¬ÉÌµê>¹ºÎïÇåµ¥***",receiptPrinter.getReceiptHead());
+		assertEquals("***<æ²¡é’±èµšå•†åº—>è´­ç‰©æ¸…å•***",receiptPrinter.getReceiptHead());
 	}
 
 	@Test
 	public void printOneItemInReceiptItemsSection()
 	{
-		Assert.assertEquals("Ãû³Æ£º¿É¿Ú¿ÉÀÖ£¬ÊıÁ¿£º3Æ¿£¬µ¥¼Û£º3.00(Ôª)£¬Ğ¡¼Æ£º9.00(Ôª)",receiptPrinter.printOneItemInItemsSection(createProduct("ITEM0002","¿É¿Ú¿ÉÀÖ", 3.00, "Æ¿"),3));
-		Assert.assertEquals("Ãû³Æ£º¿É¿Ú¿ÉÀÖ£¬ÊıÁ¿£º2Æ¿£¬µ¥¼Û£º3.00(Ôª)£¬Ğ¡¼Æ£º6.00(Ôª)",receiptPrinter.printOneItemInItemsSection(createProduct("ITEM0002","¿É¿Ú¿ÉÀÖ", 3.00, "Æ¿"),2));
-		Assert.assertEquals("Ãû³Æ£ºÓğÃ«Çò£¬ÊıÁ¿£º5¸ö£¬µ¥¼Û£º1.00(Ôª)£¬Ğ¡¼Æ£º5.00(Ôª)",
-                receiptPrinter.printOneItemInItemsSection(createProduct("ITEM0001","ÓğÃ«Çò",1.00,"¸ö"),5));
+		Assert.assertEquals("åç§°ï¼šå¯å£å¯ä¹ï¼Œæ•°é‡ï¼š3ç“¶ï¼Œå•ä»·ï¼š3.00(å…ƒ)ï¼Œå°è®¡ï¼š9.00(å…ƒ)",receiptPrinter.printOneItemInItemsSection(createProduct("ITEM000001","å¯å£å¯ä¹", 3.00, "ç“¶"),3));
+		Assert.assertEquals("åç§°ï¼šå¯å£å¯ä¹ï¼Œæ•°é‡ï¼š2ç“¶ï¼Œå•ä»·ï¼š3.00(å…ƒ)ï¼Œå°è®¡ï¼š6.00(å…ƒ)",receiptPrinter.printOneItemInItemsSection(createProduct("ITEM000001","å¯å£å¯ä¹", 3.00, "ç“¶"),2));
+		Assert.assertEquals("åç§°ï¼šç¾½æ¯›çƒï¼Œæ•°é‡ï¼š5ä¸ªï¼Œå•ä»·ï¼š1.00(å…ƒ)ï¼Œå°è®¡ï¼š5.00(å…ƒ)",
+                receiptPrinter.printOneItemInItemsSection(createProduct("ITEM000005","ç¾½æ¯›çƒ",1.00,"ä¸ª"),5));
 	}
+	
+/*
 	@Test
 	public void printMutipleItemInReceiptItemsSection()
 	{
-		LinkedHashMap<Product,Integer> productsWithNumbers = new LinkedHashMap<Product,Integer>();
-		productsWithNumbers.put(createProduct("ITEM0002","¿É¿Ú¿ÉÀÖ", 3.00, "Æ¿"),3);
-		productsWithNumbers.put(createProduct("ITEM0001","ÓğÃ«Çò", 1.00, "¸ö"),5);
-		Assert.assertEquals("Ãû³Æ£º¿É¿Ú¿ÉÀÖ£¬ÊıÁ¿£º3Æ¿£¬µ¥¼Û£º3.00(Ôª)£¬Ğ¡¼Æ£º9.00(Ôª)\nÃû³Æ£ºÓğÃ«Çò£¬ÊıÁ¿£º5¸ö£¬µ¥¼Û£º1.00(Ôª)£¬Ğ¡¼Æ£º5.00(Ôª)\n",
+		LinkedHashMap<String,Integer> productsWithNumbers = new LinkedHashMap<String,Integer>();
+		productsWithNumbers.put("ITEM000001",3);
+		productsWithNumbers.put("ITEM000002",1);
+
+		Assert.assertEquals("ï¿½ï¿½Æ£ï¿½ï¿½É¿Ú¿ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3Æ¿ï¿½ï¿½ï¿½ï¿½ï¿½Û£ï¿½3.00(Ôª)ï¿½ï¿½Ğ¡ï¿½Æ£ï¿½9.00(Ôª)\nï¿½ï¿½Æ£ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Û£ï¿½4.00(Ôª)ï¿½ï¿½Ğ¡ï¿½Æ£ï¿½4.00(Ôª)\n",
 							receiptPrinter.printMultipleItemsInItemSection(productsWithNumbers));
 	}
-
+*/
+	
+	@Test
+	public void ThreeChooseOneTest()
+	{
+		LinkedHashMap<String,Integer> productsWithNumbers = new LinkedHashMap<String,Integer>();
+		productsWithNumbers.put("ITEM000001",3);
+		productsWithNumbers.put("ITEM000005",5);
+		productsWithNumbers.put("ITEM000003",2);
+		Assert.assertEquals("åç§°ï¼šå¯å£å¯ä¹ï¼Œæ•°é‡ï¼š3ç“¶ï¼Œå•ä»·ï¼š3.00(å…ƒ)ï¼Œå°è®¡ï¼š6.00(å…ƒ)\nåç§°ï¼šç¾½æ¯›çƒï¼Œæ•°é‡ï¼š5ä¸ªï¼Œå•ä»·ï¼š1.00(å…ƒ)ï¼Œå°è®¡ï¼š4.00(å…ƒ)\nåç§°ï¼šè‹¹æœï¼Œæ•°é‡ï¼š2æ–¤ï¼Œå•ä»·ï¼š5.00(å…ƒ)ï¼Œå°è®¡ï¼š9.00(å…ƒ)ï¼ŒèŠ‚çœ1.00(å…ƒ)\n",
+							receiptPrinter.threeChoseOne(productsWithNumbers));
+	}
+	
 	@Test
 	public void getReceiptSum()
 	{
-		assertEquals("×Ü¼Æ£º14.00(Ôª)",receiptPrinter.getReceiptSum(14.00));
+		LinkedHashMap<String,Integer> productsWithNumbers = new LinkedHashMap<String,Integer>();
+		productsWithNumbers.put("ITEM000001",3);
+		productsWithNumbers.put("ITEM000005",5);
+		productsWithNumbers.put("ITEM000003",2);
+		
+		assertEquals("æ€»è®¡ï¼š19.00(å…ƒ)\nèŠ‚çœï¼š5.00(å…ƒ)",receiptPrinter.getReceiptSum(productsWithNumbers));
 	}
 }

@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import app.UtilFiles.ReadUtilFile;
 import app.model.Product;
 import app.printer.ReceiptPrinter;
 
@@ -23,7 +24,7 @@ public class CashRegisterTest {
 	@Before
 	public void setUp(){
 		cashRegister = new CashRegister();
-		product1 = createProduct("ITEM0001",10.50);
+		product1 = createProduct("ITEM000001",10.50);
 	}
 	
 	private Product createProduct(String barcode, double price) {
@@ -40,7 +41,7 @@ public class CashRegisterTest {
 	public void getTotalPriceWhenHaveMultipleProducts() {
 		cashRegister.add(product1);
 		cashRegister.add(product1);
-		cashRegister.add(createProduct("ITEM0002",20.50));
+		cashRegister.add(createProduct("ITEM000002",20.50));
 		assertEquals(41.50,cashRegister.getTotalPrice(),0.00000001);
 	}
 	
@@ -48,9 +49,9 @@ public class CashRegisterTest {
 	public void getProductNumber() {
 		cashRegister.add(product1);
 		cashRegister.add(product1);
-		cashRegister.add(createProduct("ITEM0002",20.50));
+		cashRegister.add(createProduct("ITEM000002",20.50));
 		assertEquals(2,cashRegister.getProductNumber(product1));
-		assertEquals(1,cashRegister.getProductNumber(createProduct("ITEM0002",20.50)));
+		assertEquals(1,cashRegister.getProductNumber(createProduct("ITEM000002",20.50)));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -60,13 +61,13 @@ public class CashRegisterTest {
 		cashRegister.setReceiptPrinter(receiptPrinter);
 		cashRegister.add(product1);
 		cashRegister.add(product1);
-		cashRegister.add(createProduct("ITEM0002",20.50));
+		cashRegister.add(createProduct("ITEM000002",20.50));
 		
 		cashRegister.printReceipt();
 				
 		verify(receiptPrinter,times(1)).getReceiptHead();
-		verify(receiptPrinter,times(1)).printMultipleItemsInItemSection(any(LinkedHashMap.class));
-		verify(receiptPrinter,times(1)).getReceiptSum(cashRegister.getTotalPrice());
+		//verify(receiptPrinter,times(1)).printMultipleItemsInItemSection(any(LinkedHashMap.class));
+		verify(receiptPrinter,times(1)).getReceiptSum(ReadUtilFile.productsWithNumbers);
 	}
 	
 }

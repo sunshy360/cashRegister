@@ -7,16 +7,16 @@ import java.util.Map;
 import org.junit.Test;
 
 import app.UtilFiles.ReadUtilFile;
-import app.controller.DiscountConvert;
+import app.UtilFiles.DiscountConvert;
 import junit.framework.Assert;
 
 public class ReadDiscountID {
 
 	@Test
 	public void test() {
-		
-		Map<String, Object> discountIDMap = ReadUtilFile.ReadDiscountItem();
-		Map<String, DiscountConvert> discountConvertMap = ReadUtilFile.ReadDiscountConvertItem();
+		ReadUtilFile readUtilFile = new ReadUtilFile();
+		Map<String, String> discountIDMap = readUtilFile.readDiscountItem();
+		Map<String, DiscountConvert> discountConvertMap = readUtilFile.readDiscountConvertItem();
 		Map<String, DiscountConvert> discountProduct = new LinkedHashMap<String, DiscountConvert>();
 		
 		for(String discountMessageInretMap : discountIDMap.keySet())
@@ -37,12 +37,12 @@ public class ReadDiscountID {
 		   	if(key == "ITEM000001")
 		   	{
 		   		Assert.assertEquals(0.95, dConvert.getDiscount());
-		   		Assert.assertEquals("æ≈ŒÂ’€", dConvert.getDiscountMessage());
+		   		Assert.assertEquals("ÂèØÂè£ÂèØ‰πê", dConvert.getDiscountMessage());
 		   	}
 		   	if(key == "ITEM000003")
 		   	{
 		   		Assert.assertEquals(0.9, dConvert.getDiscount());
-		   		Assert.assertEquals("æ≈’€", dConvert.getDiscountMessage());
+		   		Assert.assertEquals("ËãπÊûú", dConvert.getDiscountMessage());
 		   	}
 		 }
 	}

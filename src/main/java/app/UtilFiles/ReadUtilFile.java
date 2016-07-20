@@ -1,33 +1,41 @@
 package app.UtilFiles;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import app.controller.DiscountConvert;
 import app.model.Product;
-
 
 public class ReadUtilFile {
 
+	public static Map<String, String> discountMap = new HashMap<String, String>();
+	public static Map<String, DiscountConvert> discountConvertMap = new HashMap<String, DiscountConvert>();
+	public static Map<String, Product> productMap = new HashMap<String, Product>();
+	public static LinkedHashMap<String, Integer> productsWithNumbers = new LinkedHashMap<String, Integer>();
+	
 	public static String readFile(String filePath)
 	{
 		String str = "";
 		File file = new File(filePath);
-		// ÅĞ¶ÏÎÄ¼şÊÇ·ñ´æÔÚ£¬ÇÒÆäÊôĞÔÊÇ·ñÎªfile
+		// è¯»æ–‡ä»¶
 		if(file.exists() && file.isFile()){ 
 			BufferedReader bufferedReader = null;
 			String lineData = "";
 			try {
-				bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GBK"));
-				// ÖğĞĞ´ÓÎÄ¼şÖĞ¶ÁÈ¡ÊäÈëÊı¾İ
+				// è¯»è¡Œ
 				while((lineData = bufferedReader.readLine()) != null){
 					str += lineData;
 				}
@@ -35,62 +43,106 @@ public class ReadUtilFile {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}finally{
-				CloseUtil.close(bufferedReader);
+				close(bufferedReader);
 			}
 		}
 	return str;
 	}
 	
-	public static Map<String, Object> ReadDiscountItem()
-	{
-		String str = readFile(".\\Data\\discountID.json");
-		//¶ÁÈ¡´òÕÛÇåµ¥ÖĞÁĞ±í
-		Gson gson = new Gson();
-	    Map<String, Object> retMap = gson.fromJson(str, new TypeToken<Map<String, Object>>(){}.getType());
-	    
-	    return retMap;
+	public static void close(Closeable closeable) {
+		if(null != closeable){
+			try {
+				closeable.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-	
-	public static Map<String, DiscountConvert> ReadDiscountConvertItem()
-	{
-		String str2 = readFile(".\\Data\\discountConvert.json");
-	    //¶ÁÈ¡´òÕÛ×ª»»×Ö·ûÁĞ±í
-		Gson gson2 = new Gson();
-	    Map<String, DiscountConvert> retMap2 = gson2.fromJson(str2, new TypeToken<Map<String, DiscountConvert>>(){}.getType());
-	    
-	    return retMap2;
-	}
-	
-	public static void ShoppingCartItem(List<String> list2)
-	{
-		String str = readFile(".\\Data\\shoppingCart.json");
-		//¶ÁÈ¡¹ºÎïÇåµ¥£¬½«Æä×ª»»Îªlist£¬´æ·Å
-		Gson gson = new Gson();
-		List<String> retList = gson.fromJson(str,  new TypeToken<List<String>>(){}.getType()); 
-		@SuppressWarnings("rawtypes")
-		ArrayList list = new ArrayList();
-        for (String str2 : retList) {
-        	list.add(str2);
-        }  
-        for(int i = 0; i < list.size(); i++)
-        {
-        	if(list.get(i).toString().contains("-"))
-            	{
-            		String[] temp = list.get(i).toString().split("-");
-            		for(int j = 0; j < Integer.parseInt(temp[1]);j++)
-            			list2.add(temp[0]);
-            	}
-        	else
-        		list2.add(list.get(i).toString());  	
-        }
-	}
-	
-	public static Map<String, Product> ReadProductItem()
+
+	public static Map<String, Product> readProductItem()
 	{
 		String str = ReadUtilFile.readFile(".\\Data\\product.json");
-		//½«json string×ªÎªproduct¶ÔÏó £¬ÓÃmap´æ·Å
+		//json string product
 		Gson gson = new Gson();
-	    Map<String, Product> retMap = gson.fromJson(str, new TypeToken<Map<String, Product>>(){}.getType());
-	    return retMap;
+	    productMap = gson.fromJson(str, new TypeToken<Map<String, Product>>(){}.getType());
+	    return productMap;
+	}
+	
+	public static Map<String, String> readDiscountItem()
+	{
+		String str = readFile(".\\Data\\discountID.json");
+		//æŠ˜æ‰£ä¿¡æ¯
+		Gson gson = new Gson();
+		discountMap = gson.fromJson(str, new TypeToken<Map<String, String>>(){}.getType());
+	    
+	    return discountMap;
+	}
+
+	public static Map<String, DiscountConvert> readDiscountConvertItem()
+	{
+		String str2 = readFile(".\\Data\\discountConvert.json");
+		//æŠ˜æ‰£è½¬æ¢
+		Gson gson2 = new Gson();
+		discountConvertMap = gson2.fromJson(str2, new TypeToken<Map<String, DiscountConvert>>(){}.getType());
+	    
+	    return discountConvertMap;
+	}
+	
+	public static ArrayList<String> readBuyTwoGetOneFreeID()
+	{
+		String str = ReadUtilFile.readFile(".\\Data\\ByeTwoGetOneFreeID.json");
+		//ä¹°äºŒèµ ä¸€
+		Gson gson = new Gson();
+		ArrayList<String> retArray = gson.fromJson(str,  new TypeToken<ArrayList<String>>(){}.getType()); 
+		System.out.println("retArrayï¼š"+retArray);
+		return retArray;
+	}
+	
+	public static Map<String, DiscountConvert> readDiscountIDConvert()
+	{
+		Map<String, String> discountIDMap = ReadUtilFile.readDiscountItem();
+		Map<String, DiscountConvert> discountConvertMap = ReadUtilFile.readDiscountConvertItem();
+		Map<String, DiscountConvert> discountProduct = new LinkedHashMap<String, DiscountConvert>();
+		
+		for(String discountMessageInretMap : discountIDMap.keySet())
+			for(String discountMessageInretMap2 : discountConvertMap.keySet())
+		   	{
+		   		String barcode = (String)discountIDMap.get(discountMessageInretMap);
+		   		if(discountMessageInretMap.equals(discountMessageInretMap2) )
+		   		{
+			   		discountProduct.put(barcode, discountConvertMap.get(discountMessageInretMap2));
+		   		}
+		    }
+		return discountProduct;
+	}
+	
+	public static LinkedHashMap<String, Integer> shoppingCartItem(List<String> shoppingList)
+	{        
+        for(int i = 0; i < shoppingList.size(); i++)
+        {
+        	if(shoppingList.get(i).contains("-"))
+            	{
+            		String[] temp = shoppingList.get(i).split("-");
+            		if(productsWithNumbers.containsKey(temp[0]))
+            			productsWithNumbers.put(temp[0], productsWithNumbers.get(temp[0])+Integer.valueOf(temp[1]));
+            		else
+            			productsWithNumbers.put(temp[0], Integer.valueOf(temp[1]));
+            	}
+        	else{
+        		if(productsWithNumbers.containsKey(shoppingList.get(i)))
+        			productsWithNumbers.put(shoppingList.get(i), productsWithNumbers.get(shoppingList.get(i))+Integer.valueOf(1));  
+        		else
+        			productsWithNumbers.put(shoppingList.get(i), Integer.valueOf(1));
+        	}	
+        }
+        return productsWithNumbers;
+	}
+
+	public static void clear(){
+		discountMap = new HashMap<String, String>();
+		discountConvertMap = new HashMap<String, DiscountConvert>();
+		productMap = new HashMap<String, Product>();
+		productsWithNumbers = new LinkedHashMap<String, Integer>();
 	}
 }
