@@ -43,6 +43,7 @@ public class ReceiptPrinterController {
 		ReceiptPrinter receiptPrinter = new ReceiptPrinter();
 		String receipt ="<p align='center'>"+ receiptPrinter.getReceiptHead()+"</p>" +"@\n";
 		ReadUtilFile.clear();
+		receiptPrinter.clear();
 		
 		ReadUtilFile.readProductItem();
 		ReadUtilFile.readDiscountItem();
@@ -57,11 +58,12 @@ public class ReceiptPrinterController {
 
 		receipt += receiptPrinter.threeChoseOne(ReadUtilFile.productsWithNumbers)+"@\n";
 		
+		System.out.println("receiptPrinter.buyTwoFreeOneList:"+receiptPrinter.buyTwoFreeOneList);
 		if(!receiptPrinter.buyTwoFreeOneList.isEmpty())
 			receipt += receiptPrinter.printOneItemInItemsSectionWheBuyTwoGetOneFreeList()+"@\n";
 		
 		if(receiptPrinter.totalDiscount==0.0)
-			receipt += receiptPrinter.getReceiptSum(ReadUtilFile.productsWithNumbers)+"@\n";
+			receipt += receiptPrinter.getReceiptSum(ReadUtilFile.productsWithNumbers)+"\n";
 
 		System.out.println("receipt:"+receipt);
 		

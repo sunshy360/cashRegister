@@ -43,28 +43,16 @@ public class ReceiptPrinterTest {
 		Assert.assertEquals("名称：羽毛球，数量：5个，单价：1.00(元)，小计：5.00(元)",
                 receiptPrinter.printOneItemInItemsSection(createProduct("ITEM000005","羽毛球",1.00,"个"),5));
 	}
-	
-/*
-	@Test
-	public void printMutipleItemInReceiptItemsSection()
-	{
-		LinkedHashMap<String,Integer> productsWithNumbers = new LinkedHashMap<String,Integer>();
-		productsWithNumbers.put("ITEM000001",3);
-		productsWithNumbers.put("ITEM000002",1);
 
-		Assert.assertEquals("��ƣ��ɿڿ��֣�������3ƿ�����ۣ�3.00(Ԫ)��С�ƣ�9.00(Ԫ)\n��ƣ���Ƭ��������1��ۣ�4.00(Ԫ)��С�ƣ�4.00(Ԫ)\n",
-							receiptPrinter.printMultipleItemsInItemSection(productsWithNumbers));
-	}
-*/
-	
 	@Test
 	public void ThreeChooseOneTest()
 	{
+		//需要threechooseone函数配合，将那句注释去掉。
 		LinkedHashMap<String,Integer> productsWithNumbers = new LinkedHashMap<String,Integer>();
 		productsWithNumbers.put("ITEM000001",3);
 		productsWithNumbers.put("ITEM000005",5);
 		productsWithNumbers.put("ITEM000003",2);
-		Assert.assertEquals("名称：可口可乐，数量：3瓶，单价：3.00(元)，小计：6.00(元)\n名称：羽毛球，数量：5个，单价：1.00(元)，小计：4.00(元)\n名称：苹果，数量：2斤，单价：5.00(元)，小计：9.00(元)，节省1.00(元)\n",
+		Assert.assertEquals("<p>名称：可口可乐，数量：3瓶，单价：3.00(元)，小计：6.00(元)</p>\n<p>名称：羽毛球，数量：5个，单价：1.00(元)，小计：4.00(元)</p>\n<p>名称：苹果，数量：2斤，单价：5.00(元)，小计：9.00(元)，节省：1.00(元)</p>\n",
 							receiptPrinter.threeChoseOne(productsWithNumbers));
 	}
 	

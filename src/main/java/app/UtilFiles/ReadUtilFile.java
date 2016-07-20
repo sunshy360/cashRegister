@@ -30,12 +30,13 @@ public class ReadUtilFile {
 	{
 		String str = "";
 		File file = new File(filePath);
-		// 读文件
+		// 判断文件是否存在，且其属性是否为file
 		if(file.exists() && file.isFile()){ 
 			BufferedReader bufferedReader = null;
 			String lineData = "";
 			try {
-				// 读行
+				bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GBK"));
+				// 逐行从文件中读取输入数据
 				while((lineData = bufferedReader.readLine()) != null){
 					str += lineData;
 				}
@@ -95,7 +96,6 @@ public class ReadUtilFile {
 		//买二赠一
 		Gson gson = new Gson();
 		ArrayList<String> retArray = gson.fromJson(str,  new TypeToken<ArrayList<String>>(){}.getType()); 
-		System.out.println("retArray："+retArray);
 		return retArray;
 	}
 	

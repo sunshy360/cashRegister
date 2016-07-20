@@ -189,7 +189,7 @@ Is the source code interesting? Thank you!
 					$("#scanner")[0].style.display="none";
 					
 					var resList = data.split("@");
-					var receiptDiv = '<div class="jumbotron" , id="receipt">'+resList[0]+'<hr class="m-y-2"><p>'+resList[1]+'</p><hr class="m-y-2"><p>'+resList[2]+'</p><hr class="m-y-2"><p>'+resList[3]+'</p></div>';
+					var receiptDiv = '<div class="jumbotron" , id="receipt">'+resList[0]+'<hr class="m-y-2">'+resList[1]+'<hr class="m-y-2">'+resList[2]+'<hr class="m-y-2">'+resList[3]+'</div>';
 					$("#hero-content-inner-div").append(receiptDiv);
 					console.log("SUCCESS: ", data);
 				},
@@ -200,12 +200,6 @@ Is the source code interesting? Thank you!
 					console.log("DONE");
 				}
 			});
-			//var centerTitleVar = document.getElementById('centerTitle');
-			//centerTitleVar.style.display="none";
-			//var centerInfoVar = document.getElementById('centerInfo');
-			//centerInfoVar.style.display="none";
-			//var scannerVar = document.getElementById('scanner');
-			//scannerVar.style.display="none";
 			
 			/*
 			$.post("http://127.0.0.1:8080/readJson",{data:parsed},function(data){
