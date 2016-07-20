@@ -16,7 +16,7 @@ public class ReadByeTwoGetOneFreeIDTest {
 	@Test
 	public void test() {
 		String str = ReadUtilFile.readFile(".\\Data\\ByeTwoGetOneFreeID.json");
-		//读取购物清单，将其转换为list，存放
+		//读取买二赠一清单列表中ID
 		Gson gson = new Gson();
 		Set<String> retSet = gson.fromJson(str,  new TypeToken<Set<String>>(){}.getType()); 
 		      
